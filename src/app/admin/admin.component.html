@@ -1,0 +1,110 @@
+<style>
+    /* Styles pour masquer la scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    }
+    .no-scrollbar {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    }
+</style>
+<main class="flex h-screen">
+    <div class="w-2/12 border bg-gray-800 pl-3 pt-3">
+        <h2 class="text-2xl font-bold text-white">Dashboard</h2>
+        <div class="mt-5">
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/dashboard"><i class="fa-solid fa-table-columns mr-1"></i> Dashboard</a>
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/customers"><i class="fa-solid fa-user mr-1"></i>Customer</a>
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/posts"><i class="fa-solid fa-newspaper mr-1"></i>Posts</a>
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/comments"><i class="fa-solid fa-comment-dots mr-1"></i>Commentaires</a>
+            <a (click)="logout()" class=" block py-2 pl-2 text-red-500 hover:bg-orange-500 hover:text-white rounded-l" href="http://localhost:4200"><i class="fa-solid fa-right-from-bracket mr-1"></i>Deconnexion</a>
+        </div>
+    </div>
+    <div class="w-10/12 border px-3 pt-4">
+        <header class="flex justify-between">
+            <i class="fa-solid fa-bars text-4xl"></i>
+            <input type="text" placeholder="Recherchez ici ..." class="rounded border border-gray-300 px-2">
+            <span class="bg-black rounded-full">
+                <img class="h-10 w-10 rounded-full object-cover" src="../../assets/lj.jpeg" alt="">
+            </span>
+        </header>
+        <div class="flex gap-5 mt-8">
+            <div class="border flex justify-between p-3 items-center w-3/12 rounded-lg bg-gradient-to-r from-blue-700 to-purple-700 h-32 w-full">
+                <div class="text-white">
+                    <span class="text-4xl font-bold">{{totalPost}}</span>
+                    <span class="block">posts</span>
+                </div>
+                <span><i class="fa-solid fa-newspaper text-4xl text-white"></i></span>
+            </div>
+            <div class="border flex justify-between p-3 items-center w-3/12 rounded-lg bg-gradient-to-r from-orange-700 to-orange-500 h-32 w-full">
+                <div class="text-white">
+                    <span class="text-4xl font-bold">{{totalUser}}</span>
+                    <span class="block">Utilisateurs</span>
+                </div>
+                <span><i class="fa-solid fa-user text-4xl text-white"></i></span>
+            </div>
+            <div class="border flex justify-between p-3 items-center w-3/12 rounded-lg bg-gradient-to-r from-green-600 to-green-500 h-32 w-full">
+                <div class="text-white">
+                    <span class="text-4xl font-bold">{{totalComment}}</span>
+                    <span class="block">commentaires</span>
+                </div>
+                <span><i class="fa-solid fa-comment-dots text-4xl text-white"></i></span>
+            </div>
+            <div class="border flex justify-between p-3 items-center w-3/12 rounded-lg bg-gradient-to-r from-red-700 to-rose-500 h-32 w-full">
+                <div class="text-white">
+                    <span class="text-4xl font-bold">98</span>
+                    <span class="block">comments negatif</span>
+                </div>
+                <span><i class="fa-solid fa-comment-slash text-4xl text-white"></i></span>
+            </div>
+        </div>  
+        <div class="flex gap-3 mt-4 h-80">
+            <div class="w-8/12 border rounded border-gray-300 px-4 py-3 ">
+                <div class="flex justify-between border-b pb-3">
+                    <span class="text-xl font-bold">Commentaires Recents</span>
+                    <a href="http://localhost:4200/admin/comments"><button class="btn bg-gray-800 text-white px-3 font-bold rounded-lg">Voir +</button></a>
+                </div>
+                <div class="overflow-x-auto max-h-60 no-scrollbar">
+                    <table>
+                        <thead class="border-b">
+                            <tr>
+                                <th class="text-start py-4">id</th>
+                                <th class="text-start py-3">Username</th>
+                                <th class="text-start py-3">commentaire</th>
+                                <th class="text-start py-3">Statut</th>
+                                <th class="text-start py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="max-h-10">
+                            <tr *ngFor="let comment of comments" class="text-start border-b">
+                                <td class="w-3/12 py-2">{{comment.id}}</td>
+                                <td  class="w-2/12 py-2">{{comment.username}}</td>
+                                <td class="w-5/12 py-2">
+                                    <ng-container *ngIf="comment.message.length > 25">
+                                      {{ comment.message | slice:0:25 }}...
+                                    </ng-container>
+                                    <ng-container *ngIf="comment.message.length <= 25">
+                                      {{ comment.message }}
+                                    </ng-container>
+                                </td>
+                                <td class="w-2/12 py-2"><span class="bg-red-600 px-2 rounded text-white text-xxs">negatif</span></td>
+                                <td><i (click)="deleteComments(comment.id)" class="fa-solid fa-trash text-red-600 cursor-pointer"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-4/12 border rounded border-gray-300">
+                <span class="block text-center border-b py-3 text-xl font-bold">Nouveaux clients</span>
+                <div class="h-64 overflow-y-auto no-scrollbar">
+                    <div *ngFor="let user of users" class="border-b py-2 px-4 flex justify-between items-center">
+                        <div>
+                            <span class="font-bold block">{{user.prenom}} {{user.nom}}</span>
+                            <span class="text-xs">join 10/08/2024</span>
+                        </div>
+                        <span><img class="h-10 w-10 rounded-full object-cover" src="../../assets/lj.jpeg" alt=""></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

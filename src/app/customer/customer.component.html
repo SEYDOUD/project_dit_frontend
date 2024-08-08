@@ -1,0 +1,181 @@
+
+<header class="flex justify-between py-3 px-5 border items-center">
+<a href="http://localhost:4200/"><div class="text-orange-500 text-4xl font-bold">Soc<span class="text-blue-500">i</span>al</div></a>
+    <div>
+        <input class=" border border-gray-300 p-1.5 w-72 rounded" type="text" placeholder="Recherchez ce que vous voulez...">
+        <button class="btn bg-orange-500 text-white font-bold px-3  mx-3 rounded">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+    <div>
+        <span class="relative">
+            <i class="fa-solid fa-envelope mx-3 text-2xl"></i>
+            <span class="rounded-full bg-red-500 absolute right-0 -translate-x-1 text-white font-bold px-1 text-xxs">0</span>
+        </span>
+        <span class="relative">
+            <i class="fa-solid fa-bell mx-3 text-2xl"></i>
+            <span class="rounded-full bg-red-500 absolute right-0 -translate-x-1 text-white font-bold px-1 text-xxs">7</span>
+        </span>
+        <button type="button" class="mx-1 ml-2 btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Creer un post </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Creer un nouveau post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="contactForm">
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Image du post</label>
+                    <input formControlName="senderPostImg" (change)="onFileSelected($event)" name="file" type="file" class="form-control" id="recipient-name">
+                    
+                </div>
+                <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Message</label>
+                    <textarea formControlName="senderPostMessage" class="form-control" id="message-text"></textarea>
+                    <div *ngIf="contactForm.get('senderPostMessage')?.invalid && (contactForm.get('senderPostMessage')?.dirty || contactForm.get('senderPostMessage')?.touched)">
+                        <small class="text-danger" *ngIf="contactForm.get('senderPostMessage')?.hasError('required')">
+                            Veuillez remplir le champs
+                        </small>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button (click)="addPost()" type="button" class="btn btn-primary">Creer un post</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <a href="http://localhost:4200/login"><button *ngIf="!isLoggedIn" class="btn border-red-500 border  rounded mx-3 px-3 font-bold text-orange-500">Connexion</button></a>
+    </div>
+</header>
+
+<main class="flex gap-3 p-5">
+    <div class="w-3/12">
+            <div class="border px-3 rounded border-gray-300 mb-3">
+                <h1 class="font-bold text-2xl py-3">Groupes</h1>
+                <hr>
+                <div class="py-3 flex justify-between">
+                    <span class=""><img class="w-8 h-8 rounded-md" src="../../assets/foot.jpeg" alt=""></span>
+                    <span>Football</span>
+                    <button class=" bg-orange-500 text-white font-bold rounded-md px-3">suivre</button>
+                </div>
+                <hr>
+                <div class="py-3 flex justify-between">
+                    <span class=""><img class="w-8 h-8 rounded-md" src="../../assets/basket.jpeg" alt=""></span>
+                    <span>Basketball</span>
+                    <button class=" bg-orange-500 text-white font-bold rounded-md px-3">suivre</button>
+                </div>
+                
+            </div>
+            <div class="border px-3 rounded border-gray-300 mb-3">
+                <h1 class="font-bold text-2xl py-3">A la une</h1>
+                <hr>
+                <span class="relative">
+                    <img class="rounded" src="../../assets/lj.jpeg" alt="">
+                    <span class="absolute rounded top-0 right-0 left-0 bottom-0 bg-black opacity-50"></span>
+                </span>
+                
+            </div>
+            <div *ngIf="isLoggedIn" class="border px-3 rounded border-red-500 mb-3 flex py-2 gap-5 cursor-pointer items-center">
+                <span><i class="fa-solid fa-right-from-bracket text-red-500"></i></span>
+                <button (click)="logout()" class="btn font-bold text-red-500 text-lg">Deconnexion</button>
+            </div>
+    </div>
+    <div class="w-6/12">
+
+        <div *ngFor="let post of posts" class="border border-gray-300 rounded mb-3">
+            <header class="p-4 flex justify-between items-center">
+                <h2 class="text-xl font-bold">{{post.user}}</h2>
+                <button class="btn bg-black text-white font-bold rounded-md px-3">s'abonner</button>
+            </header>
+            <img class="w-full h-80 object-cover" src="../../assets/cr7.jpeg" alt="">
+            <div class="p-4">
+                {{ post.message }}
+            </div>
+            <footer class="p-4 border-t-1 border ">
+                <div class="flex justify-between pb-3">
+                    <div class="flex items-center">
+                        <span class="relative">
+                            <i (click)="changeAppreciation(post.id,true)" class="fa-solid fa-thumbs-up mx-3 text-2xl cursor-pointer hover:text-orange-500"></i>
+                            <span class="rounded-full bg-red-500 absolute right-0 translate-x-1 -translate-y-1 text-white font-bold px-1 text-xxs ">{{post.appreciationTrueCount}}</span>
+                        </span>
+                        <span class="relative">
+                            <i (click)="changeAppreciation(post.id,false)" class="fa-solid fa-thumbs-down mx-3 text-2xl cursor-pointer hover:text-gray-600"></i>
+                            <span class="rounded-full bg-red-500 absolute right-0 -translate-x-1 -translate-y-1 text-white font-bold px-1 text-xxs">{{post.appreciationFalseCount}}</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="relative">
+                            <i class="fa-solid fa-comment mx-3 text-2xl"></i>
+                            <span class="rounded-full bg-red-500 absolute right-0 -translate-x-1 -translate-y-1 text-white font-bold px-1 text-xxs">{{post.commentCount}}</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span>
+                            <i class="fa-solid fa-share text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+                <hr>
+                <form [formGroup]="commentForm" class="flex mt-3 gap-2">
+                    <textarea  formControlName="senderComment" class="px-2 border rounded  border-gray-300" placeholder="Faites un commentaire ..." name="" id="" cols="60" rows="2"></textarea>
+                    <div *ngIf="commentForm.get('senderComment')?.invalid && (commentForm.get('senderComment')?.dirty || commentForm.get('senderComment')?.touched)">
+                        <small class="text-danger" *ngIf="commentForm.get('senderComment')?.hasError('required')">
+                            Veuillez remplir le champs
+                        </small>
+                    </div>
+                    <button (click)="addComment(post.id)" type="submit" class=" bg-blue-500 text-white font-bold rounded-md px-3"><i class="fa-solid fa-paper-plane text-2xl"></i></button>
+                </form>
+            </footer>
+        </div>
+            
+    </div>
+    <div class="w-3/12 h-80">
+            <div class="border px-3 rounded border-gray-300">
+                <h1 class="font-bold text-2xl py-3">Votre profil</h1>
+                <hr>
+                <div class="py-3">
+                    <span><i class="fa-solid fa-x"></i></span>
+                    <span class="mx-3">Champs de profil</span>
+                    <span class="border rounded-2xl border-red-500 px-2">0/4 </span>
+                </div>
+                <div class="py-3">
+                    <span><i class="fa-solid fa-check"></i></span>
+                    <span class="mx-3">Photo de Couverture</span>
+                    <span class="border rounded-2xl border-green-500 px-2">2/2 </span>
+                </div>
+                <div class="py-3">
+                    <span><i class="fa-solid fa-check"></i></span>
+                    <span class="mx-3">Photo de profil</span>
+                    <span class="border rounded-2xl border-green-500 px-2">1/1 </span>
+                </div>
+            </div>
+            <div class="border px-3 rounded border-gray-300 my-3">
+                <h1 class="font-bold text-2xl py-3">Amis</h1>
+                <hr>
+                <div class="py-3 flex justify-between">
+                    <span class="">
+                        <img class="w-8 h-8 rounded-md" src="../../assets/lj.jpeg" alt="">
+                    </span>
+                    <span>Lebron james</span>
+                    <button class=" bg-orange-500 text-white font-bold rounded-md px-3">s'abonner</button>
+                </div>
+                <hr>
+                <div class="py-3 flex justify-between">
+                    <span class=""><img class="w-8 h-8 rounded-md" src="../../assets/cr7.jpeg" alt=""></span>
+                    <span>Chris ronaldo</span>
+                    <button class=" bg-orange-500 text-white font-bold rounded-md px-3">s'abonner</button>
+                </div>
+                <hr>
+                <div class="py-3 flex justify-between">
+                    <span class=""><img class="w-8 h-8 rounded-md" src="../../assets/steph.jpeg" alt=""></span>
+                    <span>Steph curry</span>
+                    <button class=" bg-orange-500 text-white font-bold rounded-md px-3">s'abonner</button>
+                </div>
+            </div>
+    </div>
+</main>

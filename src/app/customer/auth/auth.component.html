@@ -1,0 +1,82 @@
+<main class="flex">
+    <div class="w-6/12 bg-orange-500 h-screen">
+        <div class="border border-gray-300  w-96 m-auto rounded translate-y-10 bg-white">
+            <form [formGroup]="contactForm" class="p-3 ">
+                <div class="text-center py-3">
+                    <a href="http://localhost:4200/"><span class="text-4xl font-bold text-orange-500">Soc<span class="text-blue-500">i</span>al</span></a>
+                </div>
+                <div class="pb-4">
+                    <input type="text" placeholder="Votre Username" class="border border-gray-300 rounded w-full p-2" formControlName="senderUsername">
+                    <div *ngIf="contactForm.get('senderUsername')?.invalid && (contactForm.get('senderUsername')?.dirty || contactForm.get('senderUsername')?.touched)">
+                        <small class="text-danger" *ngIf="contactForm.get('senderUsername')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-4">
+                    <input type="password" placeholder="Votre mot de passe" class="border border-gray-300 rounded w-full p-2" formControlName="senderPassword">
+                    <div *ngIf="contactForm.get('senderPassword')?.invalid && (contactForm.get('senderPassword')?.dirty || contactForm.get('senderPassword')?.touched)">
+                        <small class="text-danger" *ngIf="contactForm.get('senderPassword')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-3">  
+                    <button type="submit" (click)="login()"  class="btn border-orange-500 text-center w-full border p-2 rounded bg-white text-orange-500 font-bold">Connexion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="w-6/12 h-screen">
+        <div class="border border-gray-300  w-96 m-auto rounded translate-y-10 bg-white">
+            <form [formGroup]="registerForm" action="" class="p-3 ">
+                <div class="text-center py-3">
+                    <a href="http://localhost:4200/"><span class="text-4xl font-bold text-orange-500">Soc<span class="text-blue-500">i</span>al</span></a>
+                </div>
+                <div class="pb-4">
+                    <input formControlName="senderPrenom" type="text" placeholder="Prenom" class="border border-gray-300 rounded w-full p-2">
+                    <div *ngIf="registerForm.get('senderPrenom')?.invalid && (registerForm.get('senderPrenom')?.dirty || registerForm.get('senderPrenom')?.touched)">
+                        <small class="text-danger" *ngIf="registerForm.get('senderPrenom')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-4">
+                    <input formControlName="senderNom" type="text" placeholder="Nom" class="border border-gray-300 rounded w-full p-2">
+                    <div *ngIf="registerForm.get('senderNom')?.invalid && (registerForm.get('senderNom')?.dirty || registerForm.get('senderNom')?.touched)">
+                        <small class="text-danger" *ngIf="registerForm.get('senderNom')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-4">
+                    <input formControlName="senderUsername" type="text" placeholder="Username" class="border border-gray-300 rounded w-full p-2">
+                    <div *ngIf="registerForm.get('senderUsername')?.invalid && (registerForm.get('senderUsername')?.dirty || registerForm.get('senderUsername')?.touched)">
+                        <small class="text-danger" *ngIf="registerForm.get('senderUsername')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-4">
+                    <input formControlName="senderEmail" type="email" placeholder="email" class="border border-gray-300 rounded w-full p-2">
+                    <div *ngIf="registerForm.get('senderEmail')?.invalid && (registerForm.get('senderEmail')?.dirty || registerForm.get('senderEmail')?.touched)">
+                        <small class="text-danger" *ngIf="registerForm.get('senderEmail')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-4">
+                    <input formControlName="senderPassword" type="password" placeholder="Mot de passe" class="border border-gray-300 rounded w-full p-2">
+                    <div *ngIf="registerForm.get('senderPassword')?.invalid && (registerForm.get('senderPassword')?.dirty || registerForm.get('senderPassword')?.touched)">
+                        <small class="text-danger" *ngIf="registerForm.get('senderPassword')?.hasError('required')">
+                            This field is required
+                        </small>
+                    </div>
+                </div>
+                <div class="pb-4">
+                    <button (click)="register()" class="btn border-orange-500 text-center w-full border p-2 rounded bg-orange-500 text-white font-bold">Inscription</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,26 @@
+<div class="border border-gray-300  w-96 m-auto mt-52 rounded translate-y-10">
+    <form [formGroup]="contactForm" action="" class="p-3 ">
+        <div class="text-center py-4">
+            <span class="text-4xl font-bold text-orange-500">Soc<span class="text-blue-500">i</span>al</span>
+        </div>
+        <div class="pb-4">
+            <input formControlName="senderUsername" type="text" placeholder="Username" class="border border-gray-300 rounded w-full p-2">
+            <div *ngIf="contactForm.get('senderUsername')?.invalid && (contactForm.get('senderUsername')?.dirty || contactForm.get('senderUsername')?.touched)">
+                <small class="text-danger" *ngIf="contactForm.get('senderUsername')?.hasError('required')">
+                    This field is required
+                </small>
+            </div>
+        </div>
+        <div class="pb-4">
+            <input formControlName="senderPassword" type="password" placeholder="Mot de passe" class="border border-gray-300 rounded w-full p-2">
+            <div *ngIf="contactForm.get('senderPassword')?.invalid && (contactForm.get('senderPassword')?.dirty || contactForm.get('senderPassword')?.touched)">
+                <small class="text-danger" *ngIf="contactForm.get('senderPassword')?.hasError('required')">
+                    This field is required
+                </small>
+            </div>
+        </div>
+        <div class="pb-3">
+            <button (click)="login()" class="text-center w-full border p-2 rounded bg-orange-500 text-white font-bold">Connexion</button>
+        </div>
+    </form>
+</div>

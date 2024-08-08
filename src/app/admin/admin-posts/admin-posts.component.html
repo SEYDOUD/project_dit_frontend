@@ -1,0 +1,87 @@
+<style>
+    /* Styles to hide the scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>
+
+<main class="flex h-screen">
+    <div class="w-2/12 border bg-gray-800 pl-3 pt-3">
+        <h2 class="text-2xl font-bold text-white">Dashboard</h2>
+        <div class="mt-5">
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/dashboard">
+                <i class="fa-solid fa-table-columns mr-1"></i> Dashboard
+            </a>
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/customers">
+                <i class="fa-solid fa-user mr-1"></i>Customer
+            </a>
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/posts">
+                <i class="fa-solid fa-newspaper mr-1"></i>Posts
+            </a>
+            <a class="block py-2 pl-2 text-white hover:bg-orange-500 rounded-l" href="http://localhost:4200/admin/comments">
+                <i class="fa-solid fa-comment-dots mr-1"></i>Commentaires
+            </a>
+            <a (click)="logout()" class="block py-2 pl-2 text-red-500 hover:bg-orange-500 hover:text-white rounded-l" href="http://localhost:4200">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i>Deconnexion
+            </a>
+        </div>
+    </div>
+    <div class="w-10/12 border px-3 pt-4">
+        <header class="flex justify-between">
+            <i class="fa-solid fa-bars text-4xl"></i>
+            <input type="text" placeholder="Recherchez ici ..." class="rounded border border-gray-300 px-2">
+            <span class="bg-black rounded-full">
+                <img class="h-10 w-10 rounded-full object-cover" src="../../assets/lj.jpeg" alt="">
+            </span>
+        </header>
+          
+        <div class="flex gap-3 mt-5 h-96">
+            <div class="w-full border rounded border-gray-300 px-4 py-3">
+                <div class="flex justify-between border-b pb-3">
+                    <span class="text-xl font-bold">Posts</span>
+                </div>
+                <div class="overflow-x-auto max-h-80 no-scrollbar">
+                    <table>
+                        <thead class="border-b">
+                            <tr>
+                                <th class="text-start py-3">id</th>
+                                <th class="text-start py-3">id User</th>
+                                <th class="text-start py-3">Username</th>
+                                <th class="text-start py-3">Message du post</th>
+                                <th class="text-start py-3">Statut</th>
+                                <th class="text-start py-3"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let post of posts" class="text-start border-b">
+                                <td class="w-2/12 py-2">{{post.id}}</td>
+                                <td class="w-2/12 py-2">{{post.idUser}}</td>
+                                <td class="w-2/12 py-2">{{post.username}}</td>
+                                <td class="w-5/12 py-2">
+                                    <ng-container *ngIf="post.message.length > 40">
+                                      {{ post.message | slice:0:40 }}...
+                                    </ng-container>
+                                    <ng-container *ngIf="post.message.length <= 40">
+                                      {{ post.message }}
+                                    </ng-container>
+                                </td>
+                                <td class="w-2/12 py-2">
+                                    <span class="bg-red-600 px-2 rounded text-white text-xxs">negatif</span>
+                                </td>
+                                <td>
+                                    <i (click)="deletePost(post.id)" class="fa-solid fa-trash text-red-600 cursor-pointer"></i>
+                                </td>
+                            </tr>
+                            <!-- Repeat similar rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</main>
