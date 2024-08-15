@@ -1,0 +1,1 @@
+export const API_URL = 'https://project-dit-backend.onrender.com';

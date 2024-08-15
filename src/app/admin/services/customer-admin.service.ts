@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { User } from '../../../shared/User';
+import { API_URL } from '../../../utils/API_URL';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class CustomerAdminService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.get<any>("http://localhost:5000/api_admin/users", { headers }).pipe(
+    return this._http.get<any>(`${API_URL}/api_admin/users`, { headers }).pipe(
       map(response => {
         const usersData = response.callback;
         return usersData.map((data: any) => new User(
@@ -42,7 +43,7 @@ export class CustomerAdminService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.get<any>("http://localhost:5000/api_admin/countUsers", { headers }).pipe(
+    return this._http.get<any>(`${API_URL}/api_admin/countUsers`, { headers }).pipe(
       map(response => {
         const totalUsers = response.callback;
         return totalUsers
@@ -54,7 +55,7 @@ export class CustomerAdminService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.delete<any>(`http://localhost:5000/api_admin/deleteUser/${userId}`, { headers }).pipe(
+    return this._http.delete<any>(`${API_URL}/api_admin/deleteUser/${userId}`, { headers }).pipe(
       catchError(error => {
         // Gérez l'erreur ici, par exemple, en enregistrant l'erreur ou en retournant une observable d'erreur
         console.error('Erreur lors de la suppression du commentaire:', error);

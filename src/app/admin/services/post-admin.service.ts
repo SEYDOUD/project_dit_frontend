@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PostAdmin } from '../../../shared/PostAdmin';
 import { Router } from '@angular/router';
+import { API_URL } from '../../../utils/API_URL';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class PostAdminService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.get<any>("http://localhost:5000/api_admin/posts", { headers }).pipe(
+    return this._http.get<any>(`${API_URL}/api_admin/posts`, { headers }).pipe(
       map(response => {
         const postsData = response.callback;
         // console.log(commentsData)
@@ -34,6 +35,7 @@ export class PostAdminService {
           data.idUser,
           data.username,
           data.message,
+          data.status
         ));
       })
     );
@@ -43,7 +45,7 @@ export class PostAdminService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.get<any>("http://localhost:5000/api_admin/countPosts", { headers }).pipe(
+    return this._http.get<any>(`${API_URL}/api_admin/countPosts`, { headers }).pipe(
       map(response => {
         const totalPost = response.callback;
         return totalPost
@@ -55,7 +57,7 @@ export class PostAdminService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.delete<any>(`http://localhost:5000/api_admin/deletePost/${postId}`, { headers }).pipe(
+    return this._http.delete<any>(`${API_URL}/api_admin/deletePost/${postId}`, { headers }).pipe(
       catchError(error => {
         // Gérez l'erreur ici, par exemple, en enregistrant l'erreur ou en retournant une observable d'erreur
         console.error('Erreur lors de la suppression du commentaire:', error);

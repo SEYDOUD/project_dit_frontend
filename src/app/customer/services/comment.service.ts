@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { API_URL } from '../../../utils/API_URL';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class CommentService {
       });
   
       // N'ajoutez pas l'en-tête Content-Type ici car Angular le définira automatiquement sur multipart/form-data lors de l'utilisation de FormData
-      return this._http.post<any>(`http://localhost:5000/api/comment/create/${postId}`, data, { headers: headers });
+      return this._http.post<any>(`${API_URL}/api/comment/create/${postId}`, data, { headers: headers });
     } else {
       alert('Veuillez vous connecter');
       return new Observable();

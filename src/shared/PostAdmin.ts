@@ -4,5 +4,6 @@ export class PostAdmin{
         public idUser:string,
         public username:string,
         public message:string,
+        public status:string
     ){}
 }

@@ -21,6 +21,7 @@ export class AdminComponent {
   totalPost = 0
   totalUser = 0
   totalComment = 0
+  totalNegativesComment = 0
 
   constructor(
     private _storageService:LocalStorageService,
@@ -44,6 +45,7 @@ export class AdminComponent {
     this.getTotalUsers();
     this.getComments(); 
     this.getUsers(); 
+    this.getTotalNegativesComments();
     if (this.isBrowser) {
       this.isLoggedIn = this._storageService.isLoggedIn();
     }
@@ -54,6 +56,7 @@ export class AdminComponent {
     this._commentAdminService.getComments().subscribe(
       
       (datas:Comment[])=>{
+        console.log("the data in:"+datas[0].status)
         this.comments = datas;
       },
       (err : any) => {
@@ -107,6 +110,20 @@ export class AdminComponent {
       
       (data:any)=>{
         this.totalComment = data;
+      },
+      (err : any) => {
+        alert("error"+err.error.callback)
+      }
+    );
+  }
+
+  getTotalNegativesComments(){
+
+    this._commentAdminService.getTotalNegativesComment().subscribe(
+      
+      (data:any)=>{
+        console.log("The data:"+data)
+        this.totalNegativesComment = data;
       },
       (err : any) => {
         alert("error"+err.error.callback)

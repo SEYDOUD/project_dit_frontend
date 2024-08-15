@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserLog } from '../../../shared/UserLog';
 import { Observable } from 'rxjs';
+import { API_URL } from '../../../utils/API_URL';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,6 @@ export class AuthAdminService {
 
   loginAdmin(credentials: UserLog): Observable<any> {
     const options = this.getStandardOptions();
-    return this._http.post('http://localhost:5000/api_admin/login', credentials, options)
+    return this._http.post(`${API_URL}/api_admin/login`, credentials, options)
   }
 }

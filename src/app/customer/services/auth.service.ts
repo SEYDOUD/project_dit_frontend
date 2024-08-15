@@ -5,6 +5,7 @@ import { map, Observable } from 'rxjs';
 import { UserLog } from '../../../shared/UserLog';
 import { ApiResponse } from '../../../shared/ApiResponse';
 import { User } from '../../../shared/User';
+import { API_URL } from '../../../utils/API_URL';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +29,12 @@ export class AuthService {
 
   loginCustomer(credentials: UserLog): Observable<any> {
     const options = this.getStandardOptions();
-    return this._http.post('http://localhost:5000/api/login', credentials, options)
+    return this._http.post(`${API_URL}/api/login`, credentials, options)
   }
 
   registerCustomer(credentials: User): Observable<any> {
     const options = this.getStandardOptions();
-    return this._http.post('http://localhost:5000/api/register', credentials, options)
+    return this._http.post(`${API_URL}/api/register`, credentials, options)
   }
 
   

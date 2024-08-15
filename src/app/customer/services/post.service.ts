@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Post } from '../../../shared/Post';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { API_URL } from '../../../utils/API_URL';
 
 function formDataToJson(formData: FormData): any {
   const object: any = {};
@@ -32,7 +33,7 @@ export class PostService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this._http.get<any>("http://localhost:5000/api/post/all", { headers }).pipe(
+    return this._http.get<any>(`${API_URL}/api/post/all`, { headers }).pipe(
       map(response => {
         const postsData = response.callback;
         
@@ -64,7 +65,7 @@ export class PostService {
       
   
       // N'ajoutez pas l'en-tête Content-Type ici car Angular le définira automatiquement sur multipart/form-data lors de l'utilisation de FormData
-      return this._http.post<any>('http://localhost:5000/api/post/create', data, { headers: headers });
+      return this._http.post<any>(`${API_URL}/api/post/create`, data, { headers: headers });
     } else {
       alert('Veuillez vous connecter');
       return new Observable();

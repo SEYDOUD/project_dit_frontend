@@ -70,7 +70,14 @@
                                     </ng-container>
                                 </td>
                                 <td class="w-2/12 py-2">
-                                    <span class="bg-red-600 px-2 rounded text-white text-xxs">negatif</span>
+                                    <span 
+                                        [ngClass]="{
+                                            'bg-green-600': post.status === 'positive',
+                                            'bg-red-600': post.status !== 'positive'
+                                        }"
+                                        class="px-2 rounded text-white text-xxs">
+                                        {{ post.status }}
+                                    </span>
                                 </td>
                                 <td>
                                     <i (click)="deletePost(post.id)" class="fa-solid fa-trash text-red-600 cursor-pointer"></i>

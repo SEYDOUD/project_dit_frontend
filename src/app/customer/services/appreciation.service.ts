@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { API_URL } from '../../../utils/API_URL';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AppreciationService {
       });
 
       // N'ajoutez pas l'en-tête Content-Type ici car Angular le définira automatiquement sur multipart/form-data lors de l'utilisation de FormData
-      return this._http.put<any>(`http://localhost:5000/api/appreciation/edit/${postId}`, data, { headers: headers });
+      return this._http.put<any>(`${API_URL}/api/appreciation/edit/${postId}`, data, { headers: headers });
     } else {
       alert('Veuillez vous connecter');
       return new Observable();
